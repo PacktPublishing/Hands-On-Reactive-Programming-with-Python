@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  reverse-proxy:
+    image: traefik
+    command: --api --docker
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  minio:
+    image: minio/minio
+    command: server /data
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./minio/data:/data
+      - ./minio/config:/root/.minio
+    environment:
+      MINIO_ACCESS_KEY: IU0645L6OOSV96GSEG72
+      MINIO_SECRET_KEY: udTdXiaUh1equB7BE9Kn691a/DNGnMguIVEh0iyu
+
+  audio-encoder:
+    image: audio-encoder
+    depends_on: 
+      - reverse-proxy
+      - minio
+    expose:
+      - 3000
+    volumes:
+      - ./config.json:/opt/audio-encoder/config.json
+      #- /opt/traefik/${TRAEFIK_CONFIG}:/traefik.toml
+      #- /opt/traefik/acme.json:/acme.json
+    labels:
+      - "traefik.frontend.rule=PathPrefix:/api/transcode/v1"
+      - "traefik.port=3000"
+

@@ -1,0 +1,28 @@
+debug=true
+defaultEntryPoints = ["https","http"]
+
+[entryPoints]
+  [entryPoints.http]
+  address = ":80"
+    [entryPoints.http.redirect]
+    entryPoint = "https"
+  [entryPoints.https]
+  address = ":443"
+  [entryPoints.https.tls]
+
+[retry]
+
+[docker]
+endpoint = "unix:///var/run/docker.sock"
+domain = "vps123456.ovh.net"
+watch = true
+exposedbydefault = false
+
+[acme]
+#caServer = "https://acme-staging-v02.api.letsencrypt.org/directory"
+email = "admin@vps123456.ovh.net"
+storage = "acme.json"
+entryPoint = "https"
+OnHostRule = true
+  [acme.httpChallenge]
+  entryPoint = "http"
