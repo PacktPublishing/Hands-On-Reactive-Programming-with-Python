@@ -40,7 +40,6 @@ setup(
         'Programming Language :: Python :: 3',
     ],
     scripts=[
-        'script/download-fma-dataset.sh',
         'script/audio-encode-server',
     ],
 )
