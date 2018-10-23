@@ -1,0 +1,19 @@
+{
+  "encode": {
+    "samplerate": 16000,
+    "bitdepth": 16
+  },  
+  "s3": {
+    "access_key": "P0B76GIFPB6T0OD5I67U",
+    "secret_key": "3+kGshnhQ7i41UabvMz8buqUKgtGsikmdL1Q+oDR",
+    "bucket": "audio",
+    "endpoint_url": "http://minio:9000",
+    "region_name": "eu-west-1"
+  },
+  "server": {
+    "http": {
+      "host": "0.0.0.0",
+      "port": 8000
+    }
+  }
+}
