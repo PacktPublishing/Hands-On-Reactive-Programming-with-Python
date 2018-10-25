@@ -1,7 +1,8 @@
 {
   "encode": {
-    "storage_path": "/tmp"
-  },
+    "samplerate": 16000,
+    "bitdepth": 16
+  },  
   "s3": {
     "access_key": "P0B76GIFPB6T0OD5I67U",
     "secret_key": "3+kGshnhQ7i41UabvMz8buqUKgtGsikmdL1Q+oDR",

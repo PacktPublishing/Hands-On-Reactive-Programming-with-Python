@@ -24,8 +24,7 @@ Sink = namedtuple('Sink', ['encoder', 'httpd', 's3', 'file', 'inotify'])
 
 s3_scheduler = ThreadPoolScheduler(max_workers=1)
 encode_scheduler = ThreadPoolScheduler(max_workers=4)
-asyncio.get_event_loop().set_debug(True)
-
+aio_scheduler = AsyncIOScheduler()
 
 def parse_config(file_data):
     config = (
