@@ -40,33 +40,6 @@ def parse_config(file_data):
     return config.share()
 
 
-def make_crossbar(pull_result):
-    request_observer = None
-
-    def crossbar(request, match):
-        def crossbar_subscribe(observer):
-            def on_next(i):
-                if match(i):
-                    observer.on_next(i)
-                    observer.on_completed()
-                    dispose()
-                return
-
-            dispose = pull_result.subscribe(
-                on_next=on_next)
-                #scheduler=)
-            request_observer.on_next(request)
-        return Observable.create(crossbar_subscribe)
-
-    def on_subscribe(observer):
-        nonlocal request_observer
-        request_observer = observer
-
-    pull_request = Observable.create(on_subscribe)
-
-    return pull_request, crossbar
-
-
 def audio_encoder(sources):
     # Parse configuration
     parsed_argv = (
