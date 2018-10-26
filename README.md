@@ -45,8 +45,6 @@ With the following software and hardware list you can run all code files present
 | -------- | ------------------------------------ | ----------------------------------- |
 | All | Python 3.6 | Linux, macOS, or Windows |
 
-We also provide a PDF file that has color images of the screenshots/diagrams used in this book. [Click here to download it]().
-
 ### Related products
 * Mastering Python Design Patterns [[Packt]](https://www.packtpub.com/application-development/mastering-python-design-patterns?utm_source=github&utm_medium=repository&utm_campaign=9781783989324) [[Amazon]](https://www.amazon.com/dp/1783989327)
 
