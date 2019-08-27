@@ -1,9 +1,12 @@
-from rx import Observable
-from rx.subjects import Subject
+import rx
+import rx.operators as ops
+from rx.subject import Subject
 
 
 def component_a(input):
-    return input.map(lambda i: i*2)
+    return input.pipe(
+        ops.map(lambda i: i*2)
+    )
 
 
 def component_b(input):
@@ -12,7 +15,7 @@ def component_b(input):
         on_error=lambda e: print("error: {}".format(e)),
         on_completed=lambda: print("completed")
     )
-    return Observable.from_([1, 2, 3])
+    return rx.from_([1, 2, 3])
 
 
 b_in_proxy = Subject()

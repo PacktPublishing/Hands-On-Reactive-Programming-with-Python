@@ -1,13 +1,15 @@
 import asyncio
 from aiohttp import web
-from rx import Observable, AnonymousObservable
-from rx.subjects import Subject
+import rx
+import rx.operators as ops
+from rx.subject import Subject
+
 
 def http_driver(sink, loop):
     app = None
     runner = None
 
-    def on_subscribe(observer):
+    def on_subscribe(observer, scheduler):
         def add_route(app, methods, path):
             async def on_request_data(request, path):
                 data = await request.read()
@@ -30,7 +32,9 @@ def http_driver(sink, loop):
                 return response
 
             for method in methods:
-                app.router.add_route(method, path, lambda r: on_request_data(r, path))
+                app.router.add_route(
+                    method, path,
+                    lambda r: on_request_data(r, path))
 
         def start_server(host, port, app):
             runner = web.AppRunner(app)
@@ -73,11 +77,11 @@ def http_driver(sink, loop):
             on_error=on_sink_error,
             on_completed=on_sink_completed)
 
-    return AnonymousObservable(on_subscribe)
+    return rx.create(on_subscribe)
 
 
 def echo_server(source):
-    init = Observable.from_([
+    init = rx.from_([
         {
             'what': 'add_route',
             'methods': ['GET'],
@@ -89,16 +93,17 @@ def echo_server(source):
         }
     ])
 
-    echo = source['http'] \
-        .map(lambda i: {
+    echo = source['http'].pipe(
+        ops.map(lambda i: {
             'what': 'response',
             'status': 200,
             'context': i['context'],
             'data': i['match_info']['what'].encode('utf-8'),
         })
+    )
 
     return {
-        'http': Observable.merge(init, echo),
+        'http': rx.merge(init, echo),
     }
 
 
