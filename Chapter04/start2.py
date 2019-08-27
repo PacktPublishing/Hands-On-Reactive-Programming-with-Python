@@ -1,9 +1,7 @@
-from rx import Observable
-from rx.concurrency import AsyncIOScheduler
+import rx
+from rx.scheduler.eventloop import AsyncIOScheduler
 import threading
 import asyncio
-
-scheduler = AsyncIOScheduler()
 
 
 def foo():
@@ -13,8 +11,9 @@ def foo():
 
 loop = asyncio.get_event_loop()
 done = loop.create_future()
+scheduler = AsyncIOScheduler(loop=loop)
 
-number = Observable.start(foo, scheduler=scheduler)
+number = rx.start(foo, scheduler=scheduler)
 print("subscribing...")
 number.subscribe(
     lambda i: print("on_next: {} from {}".format(i, threading.get_ident())),

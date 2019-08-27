@@ -1,4 +1,5 @@
-from rx import Observable, Observer
+import rx
+from rx.core import Observer
 
 
 class MyObserver(Observer):
@@ -11,5 +12,5 @@ class MyObserver(Observer):
     def on_error(self, error):
         print("on_error: {}".format(error))
 
-numbers = Observable.from_([1, 2, 3])
+numbers = rx.from_([1, 2, 3])
 numbers.subscribe(MyObserver())

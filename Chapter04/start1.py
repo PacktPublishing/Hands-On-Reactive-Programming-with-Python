@@ -1,4 +1,4 @@
-from rx import Observable
+import rx
 import threading
 
 
@@ -6,7 +6,7 @@ def foo():
     print("foo from {}".format(threading.get_ident()))
     return 1
 
-number = Observable.start(foo)
+number = rx.start(foo)
 print("subscribing...")
 number.subscribe(
         on_next=lambda i: print("on_next: {} from {}".format(

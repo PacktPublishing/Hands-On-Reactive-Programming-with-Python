@@ -1,6 +1,6 @@
-from rx import Observable
+import rx
 
-numbers = Observable.of(1, 2, 3, 4)
+numbers = rx.of(1, 2, 3, 4)
 numbers.subscribe(
     on_next=lambda i: print("item: {}".format(i)),
     on_error=lambda e: print("error: {}".format(e)),

@@ -1,7 +1,8 @@
-from rx import Observable
+import rx
+import rx.operators as ops
 
-numbers = Observable.from_([1, 2, 3])
-pub_numbers = numbers.publish()
+numbers = rx.from_([1, 2, 3])
+pub_numbers = numbers.pipe(ops.publish())
 
 pub_numbers.subscribe(
     on_next=lambda i: print("item: {}".format(i)),

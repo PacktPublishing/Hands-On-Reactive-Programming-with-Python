@@ -1,8 +1,8 @@
-from rx import Observable
+import rx
 import datetime
 import time
 
-ticks = Observable.interval(1000)
+ticks = rx.interval(1.0)
 ticks.subscribe(
     on_next=lambda i: print("tick {} at {}".format(
         i, datetime.datetime.now())),

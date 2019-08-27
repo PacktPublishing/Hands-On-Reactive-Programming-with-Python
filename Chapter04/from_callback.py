@@ -1,11 +1,11 @@
-from rx import Observable
+import rx
 
 
 def foo(what, handler):
     print("foo: {}".format(what))
     handler("hello " + what)
 
-callback = Observable.from_callback(foo)
+callback = rx.from_callback(foo)
 cbk_obs = callback("world")
 print("subscribing...")
 cbk_obs.subscribe(

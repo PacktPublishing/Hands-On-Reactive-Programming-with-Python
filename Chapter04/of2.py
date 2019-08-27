@@ -1,8 +1,8 @@
-from rx import Observable
+import rx
 
 
 def create_numbers_observable(*args):
-    return Observable.of(*args)
+    return rx.of(*args)
 
 create_numbers_observable(1, 2, 3, 4).subscribe(
     on_next=lambda i: print("item: {}".format(i)),

@@ -1,6 +1,6 @@
-from rx import Observable
+import rx
 
-exception = Observable.throw(NotImplementedError("I do nothing"))
+exception = rx.throw(NotImplementedError("I do nothing"))
 exception.subscribe(
     on_next=lambda i: print("item: {}".format(i)),
     on_error=lambda e: print("error: {}".format(e)),

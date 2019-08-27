@@ -1,10 +1,11 @@
-from rx import Observable
+import rx
+import rx.operators as ops
 
 
 subscribe_count = 0
 
 
-def on_subscribe(observer):
+def on_subscribe(observer, scheduler):
     global subscribe_count
     subscribe_count += 1
     if subscribe_count == 1:
@@ -16,9 +17,10 @@ def on_subscribe(observer):
         observer.on_next(3)
         observer.on_completed()
 
-err = Observable.create(on_subscribe)
-err.retry(2) \
-    .subscribe(
+err = rx.create(on_subscribe)
+err.pipe(
+    ops.retry(2)
+).subscribe(
         on_next=lambda i: print("item: {}".format(i)),
         on_error=lambda e: print("error: {}".format(e)),
         on_completed=lambda: print("completed")

@@ -1,6 +1,6 @@
-from rx import Observable
+import rx
 
-numbers = Observable.from_(range(1, 5))
+numbers = rx.from_(range(1, 5))
 numbers.subscribe(
     on_next=lambda i: print("item: {}".format(i)),
     on_error=lambda e: print("error: {}".format(e)),

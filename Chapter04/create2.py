@@ -1,8 +1,8 @@
-from rx import Observable
+import rx
 
 
 def sum_even(source):
-    def on_subscribe(observer):
+    def on_subscribe(observer, scheduler):
         accumulator = 0
 
         def on_next(i):
@@ -23,10 +23,10 @@ def sum_even(source):
 
         source.subscribe(on_next, on_error, on_completed)
 
-    return Observable.create(on_subscribe)
+    return rx.create(on_subscribe)
 
 
-numbers = Observable.from_([2, 2, 4, 5, 2])
+numbers = rx.from_([2, 2, 4, 5, 2])
 sum_even(numbers).subscribe(
     on_next=lambda i: print("item: {}".format(i)),
     on_error=lambda e: print("error: {}".format(e)),
