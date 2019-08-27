@@ -1,7 +1,7 @@
 import sys
-from rx import Observable
+import rx
 
-argv = Observable.from_(sys.argv[1:])
+argv = rx.from_(sys.argv[1:])
 
 argv.subscribe(
     on_next=lambda i: print("on_next: {}".format(i)),

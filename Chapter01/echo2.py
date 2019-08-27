@@ -1,8 +1,11 @@
 import sys
-from rx import Observable
+import rx
+import rx.operators as ops
 
-argv = Observable.from_(sys.argv[1:]) \
-    .map(lambda i: i.capitalize())
+argv = rx.from_(sys.argv[1:])
+argv = argv.pipe(
+    ops.map(lambda i: i.capitalize())
+)
 
 argv.subscribe(
     on_next=lambda i: print("on_next: {}".format(i)),
