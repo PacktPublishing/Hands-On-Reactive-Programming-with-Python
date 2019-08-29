@@ -1,15 +1,19 @@
-from rx import Observable
-from rx.subjects import Subject
+import rx
+import rx.operators as ops
+from rx.subject import Subject
 import time
 
 numbers1 = Subject()
 numbers2 = Subject()
 
-numbers1.join(numbers2, 
-              lambda i: Observable.just(True).delay(200),
-              lambda i: Observable.just(True).delay(300),
-              lambda i, j: i + j) \
-    .subscribe(
+numbers1.pipe(
+    ops.join(
+        numbers2,
+        lambda i: rx.just(True).pipe(ops.delay(200)),
+        lambda i: rx.just(True).pipe(ops.delay(300)),
+    ),
+    ops.starmap(lambda i, j: i + j),
+).subscribe(
         on_next=lambda i: print("on_next {}".format(i)),
         on_error=lambda e: print("on_error: {}".format(e)),
         on_completed=lambda: print("on_completed")

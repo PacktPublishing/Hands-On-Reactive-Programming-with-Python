@@ -1,9 +1,10 @@
-from rx import Observable
-from rx.subjects import Subject
+import rx
+import rx.operators as ops
+from rx.subject import Subject
 
 numbers = Subject()
 sampler = Subject()
-numbers.sample(sampler=sampler).subscribe(
+numbers.pipe(ops.sample(sampler=sampler)).subscribe(
     on_next=lambda i: print("on_next {}".format(i)),
     on_error=lambda e: print("on_error: {}".format(e)),
     on_completed=lambda: print("on_completed")

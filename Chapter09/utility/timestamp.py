@@ -1,10 +1,11 @@
-from rx import Observable
-from rx.subjects import Subject
+import rx
+import rx.operators as ops
+from rx.subject import Subject
 import time
 
 numbers = Subject()
 
-numbers.timestamp().subscribe(
+numbers.pipe(ops.timestamp()).subscribe(
     on_next=lambda i: print("on_next {}: {}".format(i.value, i.timestamp)),
     on_error=lambda e: print("on_error: {}".format(e)),
     on_completed=lambda: print("on_completed")

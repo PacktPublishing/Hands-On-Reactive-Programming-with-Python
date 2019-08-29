@@ -1,10 +1,11 @@
-from rx import Observable
-from rx.subjects import Subject
+import rx
+import rx.operators as ops
+from rx.subject import Subject
 import time
 import threading
 
 numbers = Subject()
-dispoable = numbers.buffer_with_time(200, timeshift=400).subscribe(
+dispoable = numbers.pipe(ops.buffer_with_time(0.2, timeshift=0.4)).subscribe(
     on_next=lambda i: print("on_next {}".format(i)),
     on_error=lambda e: print("on_error: {}".format(e)),
     on_completed=lambda: print("on_completed")

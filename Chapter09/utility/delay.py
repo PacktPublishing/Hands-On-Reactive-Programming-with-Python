@@ -1,11 +1,12 @@
-from rx import Observable
+import rx
+import rx.operators as ops
 import datetime
 import time
 
-numbers = Observable.just(1)
+numbers = rx.just(1)
 
 print("{}".format(datetime.datetime.now()))
-numbers.delay(200).subscribe(
+numbers.pipe(ops.delay(0.2)).subscribe(
     on_next=lambda i: print("on_next {}: {}".format(
         i, datetime.datetime.now())),
     on_error=lambda e: print("on_error: {}".format(e)),

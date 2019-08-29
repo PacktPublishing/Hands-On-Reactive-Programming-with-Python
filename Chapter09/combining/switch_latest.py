@@ -1,12 +1,13 @@
-from rx import Observable
-from rx.subjects import Subject
+import rx
+import rx.operators as ops
+from rx.subject import Subject
 
 obs1 = Subject()
 obs2 = Subject()
 obs3 = Subject()
 higher_order = Subject()
 
-higher_order.switch_latest().subscribe(
+higher_order.pipe(ops.switch_latest()).subscribe(
     on_next=lambda i: print("on_next {}".format(i)),
     on_error=lambda e: print("on_error: {}".format(e)),
     on_completed=lambda: print("on_completed")
