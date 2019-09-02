@@ -1,6 +1,6 @@
 from unittest import TestCase
 import asyncio
-from rx import Observable
+import rx
 
 
 class AsyncIOTestCase(TestCase):
@@ -30,7 +30,7 @@ class AsyncIOTestCase(TestCase):
         def on_completed():
             self.loop.stop()
 
-        Observable.from_future(future).subscribe(
+        rx.from_future(future).subscribe(
             on_next=on_next,
             on_error=on_error,
             on_completed=on_completed

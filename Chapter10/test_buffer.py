@@ -1,6 +1,7 @@
 from unittest import TestCase
-from rx import Observable
-from rx.subjects import Subject
+import rx
+import rx.operators as ops
+from rx.subject import Subject
 
 
 class BufferTestCase(TestCase):
@@ -9,7 +10,7 @@ class BufferTestCase(TestCase):
         numbers = Subject()
         windows = Subject()
 
-        expected_numbers = [ [1, 2], [3, 4, 5]]
+        expected_numbers = [[1, 2], [3, 4, 5]]
         expected_error = None
         actual_numbers = []
         actual_error = None
@@ -21,7 +22,7 @@ class BufferTestCase(TestCase):
             nonlocal actual_error
             actual_error = e
 
-        numbers.buffer(windows).subscribe(
+        numbers.pipe(ops.buffer(windows)).subscribe(
             on_next=on_next,
             on_error=on_error
         )
@@ -54,7 +55,7 @@ class BufferTestCase(TestCase):
             nonlocal actual_error
             actual_error = e
 
-        numbers.buffer(windows).subscribe(
+        numbers.pipe(ops.buffer(windows)).subscribe(
             on_next=on_next,
             on_error=on_error
         )
