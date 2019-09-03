@@ -1,5 +1,5 @@
 from collections import namedtuple
-from rx import Observable
+import rx
 from cyclotron import Component
 import asyncio
 
@@ -19,7 +19,7 @@ def make_driver(loop=None):
     loop = loop or asyncio.get_event_loop()
 
     def driver(sink):
-        def on_subscribe(observer):
+        def on_subscribe(observer, scheduler):
             async def client_connected(reader, writer):
                 def on_connection_subscribe(observer, reader, writer):
                     async def handle_connection(observer, reader, writer):
@@ -38,7 +38,7 @@ def make_driver(loop=None):
 
                     asyncio.ensure_future(handle_connection(observer, reader, writer))
 
-                connection = Observable.create(lambda o: on_connection_subscribe(o, reader, writer))
+                connection = rx.create(lambda o, s: on_connection_subscribe(o, reader, writer))
                 observer.on_next(Connection(
                     id=writer,
                     observable=connection))
@@ -64,8 +64,6 @@ def make_driver(loop=None):
                 on_error=observer.on_error
             )
 
-
-
-        return Source(response=Observable.create(on_subscribe))
+        return Source(response=rx.create(on_subscribe))
 
     return Component(call=driver, input=Sink)

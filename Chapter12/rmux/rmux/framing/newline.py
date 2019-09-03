@@ -1,8 +1,8 @@
-from rx import Observable
+import rx
 
 
 def frame(datagram):
-    def on_subscribe(observer):
+    def on_subscribe(observer, scheduler):
         def on_next(i):
             if '\n' in i:
                 observer.on_error(ValueError('newline must be escaped'))
@@ -13,11 +13,11 @@ def frame(datagram):
             on_error=observer.on_error,
             on_completed=observer.on_completed,
         )
-    return Observable.create(on_subscribe)
+    return rx.create(on_subscribe)
 
 
 def unframe(data):
-    def on_subscribe(observer):
+    def on_subscribe(observer, scheduler):
         acc = ''
 
         def on_next(i):
@@ -34,4 +34,4 @@ def unframe(data):
             on_error=observer.on_error,
             on_completed=observer.on_completed,
         )
-    return Observable.create(on_subscribe)
+    return rx.create(on_subscribe)

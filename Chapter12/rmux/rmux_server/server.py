@@ -1,9 +1,10 @@
 from collections import namedtuple
 import json
-from rx import Observable
+import rx
+import rx.operators as ops
 from rx.core.notification import OnNext, OnError, OnCompleted
 from cyclotron import Component
-from cyclotron_aio.runner import run
+from cyclotron.asyncio.runner import run
 
 import rmux_server.tcp_server as tcp_server
 from rmux.framing.newline import frame, unframe
@@ -34,11 +35,11 @@ def materialize_repr(notification, id):
 
 
 def one_two_three_four():
-    return Observable.from_(['1', '2', '3', '4'])
+    return rx.from_(['1', '2', '3', '4'])
 
 
 def lets_go():
-    return Observable.just("let's go")
+    return rx.just("let's go")
 
 
 create_observable = {
@@ -46,28 +47,28 @@ create_observable = {
     'heyho': lets_go,
 }
 
+
 def rmux_server(sources):
-    tcp_listen = Observable.just(tcp_server.Listen(
+    tcp_listen = rx.just(tcp_server.Listen(
         host='127.0.0.1', port='8080'
     ))
 
-    beat = (
-        sources.tcp_server.response
-        .flat_map(lambda connection: connection.observable
-            .map(lambda i: i.data.decode('utf-8'))
-            .let(unframe)
-            .map(lambda i: json.loads(i))
-            .flat_map(lambda subscription: create_observable[subscription['name']]()
-                .materialize()                
-                .map(lambda i: materialize_repr(i, subscription['id']))                
-            )
-            .map(lambda i: json.dumps(i))
-            .let(frame)
-            .map(lambda j: tcp_server.Write(id=connection.id, data=j.encode()))
-        )
+    beat = sources.tcp_server.response.pipe(
+        ops.flat_map(lambda connection: connection.observable.pipe(
+            ops.map(lambda i: i.data.decode('utf-8')),
+            unframe,
+            ops.map(lambda i: json.loads(i)),
+            ops.flat_map(lambda subscription: create_observable[subscription['name']]().pipe(
+                ops.materialize(),
+                ops.map(lambda i: materialize_repr(i, subscription['id'])),
+            )),
+            ops.map(lambda i: json.dumps(i)),
+            frame,
+            ops.map(lambda j: tcp_server.Write(id=connection.id, data=j.encode()))
+        ))
     )
 
-    tcp_sink = Observable.merge(tcp_listen, beat)
+    tcp_sink = rx.merge(tcp_listen, beat)
     return Sink(
         tcp_server=tcp_server.Sink(request=tcp_sink),
     )

@@ -1,9 +1,10 @@
 from collections import namedtuple
 import json
 from rx.core.notification import OnNext, OnError, OnCompleted
-from rx import Observable
+import rx
+import rx.operators as ops
 from cyclotron import Component
-from cyclotron_aio.runner import run
+from cyclotron.asyncio.runner import run
 
 from rmux.framing.newline import frame, unframe
 
@@ -25,37 +26,35 @@ def notification(obj):
 
 
 def rmux_client(sources):
-    response = sources.tcp_client.response.share()
-    tcp_connect = Observable.just(tcp_client.Connect(
+    response = sources.tcp_client.response.pipe(ops.share())
+    tcp_connect = rx.just(tcp_client.Connect(
         host='127.0.0.1', port='8080'
     ))
 
-    create_observable = (
-        response
-        .flat_map(lambda connection: 
-            Observable.just({'what': 'subscribe', 'id':42, 'name': '1234'})
-            .map(lambda i: json.dumps(i))
-            .let(frame)
-            .map(lambda j: tcp_client.Write(id=connection.id, data=j.encode()))
-        )
+    create_observable = response.pipe(
+        ops.flat_map(lambda connection: 
+            rx.just({'what': 'subscribe', 'id':42, 'name': '1234'}).pipe(
+                ops.map(lambda i: json.dumps(i)),
+                frame,
+                ops.map(lambda j: tcp_client.Write(id=connection.id, data=j.encode()))
+        ))
     )
 
-    console = (
-        response
-        .flat_map(lambda connection: connection.observable
-            .map(lambda i: i.data.decode('utf-8'))
-            .let(unframe)
-            .map(lambda i: json.loads(i))
-            .group_by(lambda i: i['id'])            
-            .flat_map(lambda subscription: subscription
-                .map(notification)
-                .dematerialize()
-            )
-        )
-        .map(lambda i: "item: {}\n".format(i))
+    console = response.pipe(
+        ops.flat_map(lambda connection: connection.observable.pipe(
+            ops.map(lambda i: i.data.decode('utf-8')),
+            unframe,
+            ops.map(lambda i: json.loads(i)),
+            ops.group_by(lambda i: i['id']),
+            ops.flat_map(lambda subscription: subscription.pipe(
+                ops.map(notification),
+                ops.dematerialize(),
+            ))
+        )),
+        ops.map(lambda i: "item: {}\n".format(i))
     )
 
-    tcp_sink = Observable.merge(tcp_connect, create_observable)
+    tcp_sink = rx.merge(tcp_connect, create_observable)
 
     return Sink(
         tcp_client=tcp_client.Sink(request=tcp_sink),

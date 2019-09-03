@@ -1,5 +1,5 @@
 from collections import namedtuple
-from rx import Observable
+import rx
 from cyclotron import Component
 import asyncio
 
@@ -19,7 +19,7 @@ def make_driver(loop=None):
     loop = loop or asyncio.get_event_loop()
 
     def driver(sink):        
-        def on_subscribe(observer):
+        def on_subscribe(observer, scheduler):
             async def tcp_client(host, port):
                 def on_connection_subscribe(observer, reader, writer):
                     async def handle_connection(observer, reader, writer):
@@ -41,13 +41,12 @@ def make_driver(loop=None):
                 try:
                     reader, writer = await asyncio.open_connection(
                         host, port, loop=loop)
-                    connection = Observable.create(lambda o: on_connection_subscribe(o, reader, writer))
+                    connection = rx.create(lambda o, s: on_connection_subscribe(o, reader, writer))
                     observer.on_next(Connection(
                         id=writer, 
                         observable=connection))                        
                 except Exception as e:
-                    loop.call_soon(observer.on_error(e))
-                                
+                    loop.call_soon(observer.on_error(e))         
 
             async def write(writer, data):
                 writer.write(data)
@@ -56,7 +55,7 @@ def make_driver(loop=None):
                 if type(i) is Connect:
                     asyncio.ensure_future(tcp_client(i.host, i.port))
                 elif type(i) is Write:
-                    asyncio.ensure_future(write(i.id, i.data))                    
+                    asyncio.ensure_future(write(i.id, i.data))
 
             sink.request.subscribe(
                 on_next=on_next,
@@ -64,6 +63,6 @@ def make_driver(loop=None):
                 on_error=observer.on_error
             )
 
-        return Source(response=Observable.create(on_subscribe))
+        return Source(response=rx.create(on_subscribe))
 
     return Component(call=driver, input=Sink)
