@@ -1,7 +1,7 @@
 import os
 import threading
 from collections import namedtuple
-from rx import Observable
+import rx
 import sox
 
 from cyclotron import Component
@@ -41,7 +41,7 @@ EncodeError = namedtuple('UploadReponse', ['id', 'key'])
 
 def make_driver():
     def encoder(sink):
-        def on_subscribe(observer):
+        def on_subscribe(observer, scheduler):
             samplerate = None
             bitdepth = None
 
@@ -56,10 +56,10 @@ def make_driver():
                     try:
                         encoded_data = mp3_to_flac(
                             item.data, samplerate, bitdepth)
-                        observer.on_next(Observable.just(
+                        observer.on_next(rx.just(
                             EncodeResult(id=item.id, key=item.key, data=encoded_data)))
                     except:
-                        observer.on_next(Observable.throw(
+                        observer.on_next(rx.throw(
                             Exception(EncodeError(
                                 key=item.key,
                                 id=item.id))))
@@ -73,7 +73,7 @@ def make_driver():
             )
 
         return Source(
-            response=Observable.create(on_subscribe)
+            response=rx.create(on_subscribe)
         )
 
     return Component(call=encoder, input=Sink)

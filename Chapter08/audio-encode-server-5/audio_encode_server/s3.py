@@ -1,7 +1,7 @@
 import asyncio
 from collections import namedtuple
 from io import BytesIO
-from rx import Observable
+import rx
 import boto3
 from boto3.session import Session
 
@@ -21,12 +21,14 @@ UploadObject = namedtuple('UploadObject', ['key', 'data', 'id'])
 UploadReponse = namedtuple('UploadReponse', ['key', 'id'])
 UploadError = namedtuple('UploadReponse', ['key', 'id'])
 
+
 def make_driver(loop=None):
     if loop is None:
         loop = asyncio.get_event_loop()
+
     def driver(sink):
 
-        def on_subscribe(observer):
+        def on_subscribe(observer, scheduler):
             client = None
             bucket = None
 
@@ -36,8 +38,9 @@ def make_driver(loop=None):
 
                 if type(item) is Configure:
                     session = Session(aws_access_key_id=item.access_key,
-                                    aws_secret_access_key=item.secret_key)
-                    client = session.client('s3',
+                                      aws_secret_access_key=item.secret_key)
+                    client = session.client(
+                        's3',
                         endpoint_url=item.endpoint_url,
                         region_name=item.region_name)
                     bucket = item.bucket
@@ -46,14 +49,15 @@ def make_driver(loop=None):
                     try:
                         data = BytesIO(item.data)
                         client.upload_fileobj(data, bucket, item.key)
-                        loop.call_soon_threadsafe(observer.on_next(Observable.just(UploadReponse(
-                            key=item.key,
-                            id=item.id))))
+                        loop.call_soon_threadsafe(observer.on_next, rx.just(
+                            UploadReponse(
+                                key=item.key,
+                                id=item.id)))
                     except:
-                        loop.call_soon_threadsafe(observer.on_next(Observable.throw(
+                        loop.call_soon_threadsafe(observer.on_next, rx.throw(
                             Exception(UploadError(
-                            key=item.key,
-                            id=item.id)))))
+                                      key=item.key,
+                                      id=item.id))))
 
                 else:
                     loop.call_soon_threadsafe(observer.on_error, "unknown item: {}".format(type(item)))
@@ -64,8 +68,7 @@ def make_driver(loop=None):
                 on_completed=lambda: loop.call_soon_threadsafe(observer.on_completed))
 
         return Source(
-            response=Observable.create(on_subscribe)
+            response=rx.create(on_subscribe)
         )
-
 
     return Component(call=driver, input=Sink)

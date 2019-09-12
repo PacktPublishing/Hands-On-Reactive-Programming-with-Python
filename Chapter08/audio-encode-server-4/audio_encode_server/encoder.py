@@ -1,7 +1,7 @@
 import os
 import threading
 from collections import namedtuple
-from rx import Observable
+import rx
 import sox
 
 from cyclotron import Component
@@ -40,7 +40,7 @@ EncodeResult = namedtuple('EncodeResult', ['id', 'data', 'key'])
 
 def make_driver():
     def encoder(sink):
-        def on_subscribe(observer):
+        def on_subscribe(observer, scheduler):
             samplerate = None
             bitdepth = None
 
@@ -66,7 +66,7 @@ def make_driver():
             )
 
         return Source(
-            response=Observable.create(on_subscribe)
+            response=rx.create(on_subscribe)
         )
 
     return Component(call=encoder, input=Sink)

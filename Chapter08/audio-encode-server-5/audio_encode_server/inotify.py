@@ -1,7 +1,7 @@
 from collections import namedtuple
 import asyncio
 import aionotify
-from rx import Observable
+import rx
 from cyclotron import Component
 import threading
 
@@ -15,12 +15,13 @@ Start = namedtuple('Start', [])
 # Source objects
 Event = namedtuple('Event', ['id', 'path'])
 
-def make_driver(loop = None):
+
+def make_driver(loop=None):
     loop = asyncio.get_event_loop() if loop is None else loop
 
     def driver(sink):
 
-        def on_subscribe(observer):
+        def on_subscribe(observer, scheduler):
             watcher = aionotify.Watcher()
 
             async def read_events():
@@ -34,7 +35,7 @@ def make_driver(loop = None):
             def on_next(item):
                 if type(item) is AddWatch:
                     watcher.watch(alias=item.id, path=item.path, flags=item.flags)
-                        
+
                 elif type(item) is Start:
                     asyncio.ensure_future(read_events())
 
@@ -46,7 +47,7 @@ def make_driver(loop = None):
                 on_error=lambda e: observer.on_error(e))
 
         return Source(
-            response=Observable.create(on_subscribe)
+            response=rx.create(on_subscribe)
         )
 
 

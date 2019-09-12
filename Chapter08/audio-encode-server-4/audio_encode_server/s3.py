@@ -1,7 +1,7 @@
 import asyncio
 from collections import namedtuple
 from io import BytesIO
-from rx import Observable
+import rx
 import boto3
 from boto3.session import Session
 
@@ -20,12 +20,14 @@ UploadObject = namedtuple('UploadObject', ['key', 'data', 'id'])
 # Source objects
 UploadReponse = namedtuple('UploadReponse', ['key', 'id'])
 
+
 def make_driver(loop=None):
     if loop is None:
         loop = asyncio.get_event_loop()
+
     def driver(sink):
 
-        def on_subscribe(observer):
+        def on_subscribe(observer, scheduler):
             client = None
             bucket = None
 
@@ -35,8 +37,9 @@ def make_driver(loop=None):
 
                 if type(item) is Configure:
                     session = Session(aws_access_key_id=item.access_key,
-                                    aws_secret_access_key=item.secret_key)
-                    client = session.client('s3',
+                                      aws_secret_access_key=item.secret_key)
+                    client = session.client(
+                        's3',
                         endpoint_url=item.endpoint_url,
                         region_name=item.region_name)
                     bucket = item.bucket
@@ -57,7 +60,7 @@ def make_driver(loop=None):
                 on_completed=lambda: loop.call_soon_threadsafe(observer.on_completed))
 
         return Source(
-            response=Observable.create(on_subscribe)
+            response=rx.create(on_subscribe)
         )
 
 
