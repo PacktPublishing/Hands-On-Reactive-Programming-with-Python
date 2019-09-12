@@ -1,5 +1,5 @@
 from collections import namedtuple
-from rx import Observable
+import rx.operators as ops
 from cyclotron import Component
 from cyclotron.rx import run
 
@@ -12,7 +12,11 @@ Sink = namedtuple('Sink', ['stdout'])
 
 
 def echo(sources):
-    console = sources.argv.argv.skip(1).map(lambda i: i + '\n')
+    console = sources.argv.argv.pipe(
+        ops.skip(1),
+        ops.map(lambda i: i + '\n')
+    )
+
     return Sink(
         stdout=stdout.Sink(data=console)
     )
