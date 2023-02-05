@@ -1,5 +1,5 @@
-import rx
-import rx.operators as ops
+import reactivex as rx
+import reactivex.operators as ops
 
 empty = rx.empty()
 

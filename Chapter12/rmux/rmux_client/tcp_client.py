@@ -1,5 +1,5 @@
 from collections import namedtuple
-import rx
+import reactivex as rx
 from cyclotron import Component
 import asyncio
 
@@ -40,7 +40,7 @@ def make_driver(loop=None):
 
                 try:
                     reader, writer = await asyncio.open_connection(
-                        host, port, loop=loop)
+                        host, port)
                     connection = rx.create(lambda o, s: on_connection_subscribe(o, reader, writer))
                     observer.on_next(Connection(
                         id=writer, 

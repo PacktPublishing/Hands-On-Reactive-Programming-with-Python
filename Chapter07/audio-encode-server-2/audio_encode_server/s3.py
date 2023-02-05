@@ -1,7 +1,6 @@
 from collections import namedtuple
 from io import BytesIO
-import rx
-import boto3
+import reactivex as rx
 from boto3.session import Session
 
 from cyclotron import Component

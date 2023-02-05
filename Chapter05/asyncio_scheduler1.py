@@ -1,11 +1,11 @@
-import rx
-import rx.operators as ops
-from rx.scheduler.eventloop import AsyncIOScheduler
+import reactivex as rx
+import reactivex.operators as ops
+from reactivex.scheduler.eventloop import AsyncIOScheduler
 import threading
 import asyncio
 import threading
 
-loop = asyncio.get_event_loop()
+loop = asyncio.new_event_loop()
 asyncio_scheduler = AsyncIOScheduler(loop=loop)
 numbers = rx.from_([1, 2, 3, 4], scheduler=asyncio_scheduler)
 

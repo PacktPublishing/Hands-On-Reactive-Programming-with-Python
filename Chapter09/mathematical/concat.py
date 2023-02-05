@@ -1,5 +1,5 @@
-import rx
-import rx.operators as ops
+import reactivex as rx
+import reactivex.operators as ops
 
 numbers1 = rx.from_([1, 2, 3, 4])
 numbers2 = rx.from_([11, 12])

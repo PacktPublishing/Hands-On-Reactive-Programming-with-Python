@@ -1,6 +1,6 @@
 from unittest import TestCase
 import asyncio
-import rx
+import reactivex as rx
 
 
 class AsyncIOTestCase(TestCase):

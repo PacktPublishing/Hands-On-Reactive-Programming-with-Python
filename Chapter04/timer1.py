@@ -1,9 +1,9 @@
-from rx import Observable
+import reactivex as rx
 import datetime
 import time
 
 print("starting at {}".format(datetime.datetime.now()))
-one_shot = Observable.timer(1000)
+one_shot = rx.timer(1.0)
 one_shot.subscribe(
         on_next=lambda i: print("tick {} at {}".format(
             i, datetime.datetime.now())),

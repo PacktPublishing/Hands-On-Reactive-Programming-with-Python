@@ -1,6 +1,6 @@
-import rx
-import rx.operators as ops
-from rx.subject import Subject
+import reactivex as rx
+from reactivex import operators as ops
+from reactivex.subject import Subject
 
 
 def component_a(input):

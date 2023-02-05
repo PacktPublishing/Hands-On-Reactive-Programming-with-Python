@@ -1,4 +1,4 @@
-import rx
+import reactivex as rx
 
 
 def sum_even(source):

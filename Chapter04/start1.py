@@ -1,4 +1,4 @@
-import rx
+import reactivex as rx
 import threading
 
 

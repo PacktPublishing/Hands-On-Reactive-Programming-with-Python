@@ -1,5 +1,5 @@
 from collections import namedtuple
-import rx.operators as ops
+import reactivex.operators as ops
 from cyclotron import Component
 from cyclotron.rx import run
 

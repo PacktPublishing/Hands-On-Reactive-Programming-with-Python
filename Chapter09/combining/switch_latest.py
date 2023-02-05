@@ -1,6 +1,6 @@
-import rx
-import rx.operators as ops
-from rx.subject import Subject
+import reactivex
+import reactivex.operators as ops
+from reactivex.subject import Subject
 
 obs1 = Subject()
 obs2 = Subject()

@@ -1,7 +1,7 @@
 import asyncio
 from collections import namedtuple
 from io import BytesIO
-import rx
+import reactivex as rx
 import boto3
 from boto3.session import Session
 

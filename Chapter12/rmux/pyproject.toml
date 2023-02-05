@@ -1,0 +1,40 @@
+[project]
+name = "rmux"
+version = "1.0.0"
+description = "An example reactive communication"
+readme = "README.rst"
+requires-python = ">=3.7"
+license = {file = "LICENSE.txt"}
+keywords = ["reactivex"]
+authors = [
+  {email = "romain.picard@oakbits.com"},
+  {name = "Romain Picard"}
+]
+classifiers = [
+  'Development Status :: 3 - Alpha',
+  'Intended Audience :: Developers',
+  'Programming Language :: Python :: 3',
+]
+
+dependencies = [
+  'reactivex~=4.0',
+  'cyclotron~=2.0',
+  'cyclotron-std~=2.0',
+]
+
+[project.optional-dependencies]
+test = [
+  "pytest",
+]
+
+[project.urls]
+repository = "https://github.com/PacktPublishing/Hands-On-Reactive-Programming-with-Python.git"
+
+[project.scripts]
+rmux-client="rmux_client.client:main"
+rmux-server="rmux_server.server:main"
+
+[tool.setuptools.packages.find]
+where = ["./"]
+include = ["rmux*"]
+namespaces = false

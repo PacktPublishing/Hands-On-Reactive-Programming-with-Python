@@ -1,5 +1,0 @@
-#!/usr/bin/env PYTHONUNBUFFERED="1" python
-
-from rmux_client.client import main
-
-main()

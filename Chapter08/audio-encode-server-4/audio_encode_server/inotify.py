@@ -1,7 +1,7 @@
 from collections import namedtuple
 import asyncio
 import aionotify
-import rx
+import reactivex as rx
 from cyclotron import Component
 import threading
 

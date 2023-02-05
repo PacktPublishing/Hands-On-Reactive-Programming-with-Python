@@ -1,5 +1,5 @@
-import rx
-import rx.operators as ops
+import reactivex as rx
+from reactivex import operators as ops
 
 numbers = rx.from_([1, 2, 3])
 numbers.pipe(

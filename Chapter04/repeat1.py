@@ -1,5 +1,5 @@
-import rx
-import rx.operators as ops
+import reactivex as rx
+from reactivex import operators as ops
 
 ones = rx.just(1).pipe(ops.repeat(5))
 ones.subscribe(

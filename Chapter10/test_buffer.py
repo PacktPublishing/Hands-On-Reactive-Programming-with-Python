@@ -1,7 +1,7 @@
 from unittest import TestCase
-import rx
-import rx.operators as ops
-from rx.subject import Subject
+import reactivex as rx
+import reactivex.operators as ops
+from reactivex.subject import Subject
 
 
 class BufferTestCase(TestCase):

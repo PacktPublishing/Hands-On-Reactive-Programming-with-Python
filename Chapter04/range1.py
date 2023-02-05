@@ -1,4 +1,4 @@
-import rx
+import reactivex as rx
 
 
 numbers = rx.range(1, 4)

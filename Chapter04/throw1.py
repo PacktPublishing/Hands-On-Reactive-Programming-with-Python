@@ -1,4 +1,4 @@
-import rx
+import reactivex as rx
 
 error = rx.throw("Something wrong happened")
 error.subscribe(

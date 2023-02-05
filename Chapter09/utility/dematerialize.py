@@ -1,6 +1,6 @@
-import rx
-import rx.operators as ops
-from rx.core.notification import OnNext, OnCompleted
+import reactivex as rx
+import reactivex.operators as ops
+from reactivex.notification import OnNext, OnCompleted
 
 numbers = rx.from_([
     OnNext(1), OnNext(2),

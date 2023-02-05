@@ -10,8 +10,13 @@ This is the code repository for [Hands-On Reactive Programming with Python](http
 ## About this repository
 
 The master branch of this repository contains code that has been updated to work
-with rxpy v3 and cyclotron v1. The code originally published with the book is
-available on the
+with rxpy v4 and cyclotron v2.
+
+The code updated for rxpy v3 and cyclotron v1 is available on the
+[ed1/rxpy3](https://github.com/PacktPublishing/Hands-On-Reactive-Programming-with-Python/tree/ed1/rxpy3)
+branch.
+
+The original code published with the book is available on the
 [ed1/rxpy1](https://github.com/PacktPublishing/Hands-On-Reactive-Programming-with-Python/tree/ed1/rxpy1)
 branch.
 
@@ -27,7 +32,7 @@ This book covers the following exciting features:
 * Grasp the use of the most common operators in Rx 
 * Understand reactive extensions beyond simple examples 
 * Master the art of writing reusable components 
-Deploy an application on a cloud platform with Docker and Traefik 
+* Deploy an application on a cloud platform with Docker and Traefik
 
 If you feel this book is for you, get your [copy](https://www.amazon.com/dp/1789138728) today!
 
@@ -65,7 +70,7 @@ in the book (Chapter 1-12).
 ### Software and Hardware List
 | Chapter | Software required | OS required |
 | -------- | ------------------------------------ | ----------------------------------- |
-| All | Python 3.6 | Linux, macOS, or Windows |
+| All | Python 3.7 | Linux, macOS, or Windows |
 
 ### Related products
 * Mastering Python Design Patterns [[Packt]](https://www.packtpub.com/application-development/mastering-python-design-patterns?utm_source=github&utm_medium=repository&utm_campaign=9781783989324) [[Amazon]](https://www.amazon.com/dp/1783989327)

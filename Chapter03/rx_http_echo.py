@@ -1,8 +1,8 @@
 import asyncio
 from aiohttp import web
-import rx
-import rx.operators as ops
-from rx.subject import Subject
+import reactivex as rx
+from reactivex import operators as ops
+from reactivex.subject import Subject
 
 
 def http_driver(sink, loop):
@@ -26,6 +26,7 @@ def http_driver(sink, loop):
                 data, status = response_future.result()
 
                 response = web.StreamResponse(status=status, reason=None)
+                response.content_type = "text/plain"
                 await response.prepare(request)
                 if data is not None:
                     await response.write(data)
@@ -108,7 +109,7 @@ def echo_server(source):
 
 
 def main():
-    loop = asyncio.get_event_loop()
+    loop = asyncio.new_event_loop()
     http_proxy = Subject()
     sources = {
         'http': http_driver(http_proxy, loop),

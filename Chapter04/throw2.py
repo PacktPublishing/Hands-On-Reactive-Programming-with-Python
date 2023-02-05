@@ -1,4 +1,4 @@
-import rx
+import reactivex as rx
 
 exception = rx.throw(NotImplementedError("I do nothing"))
 exception.subscribe(

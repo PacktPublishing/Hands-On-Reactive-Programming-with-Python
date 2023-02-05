@@ -1,5 +1,5 @@
 import sys
-import rx
+import reactivex as rx
 
 argv = rx.from_(sys.argv[1:])
 

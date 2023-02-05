@@ -9,7 +9,7 @@ async def do_something():
     print("Done")
 
 
-loop = asyncio.get_event_loop()
+loop = asyncio.new_event_loop()
 #loop.set_debug(True)
 loop.run_until_complete(do_something())
 loop.stop()

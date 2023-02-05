@@ -1,0 +1,45 @@
+[project]
+name = "audio-encode-server"
+version = "0.4.0"
+description = "An example audio encoder"
+readme = "README.rst"
+requires-python = ">=3.7"
+license = {file = "LICENSE.txt"}
+keywords = ["reactivex"]
+authors = [
+  {email = "romain.picard@oakbits.com"},
+  {name = "Romain Picard"}
+]
+classifiers = [
+  'Development Status :: 3 - Alpha',
+  'Intended Audience :: Developers',
+  'Programming Language :: Python :: 3',
+]
+
+dependencies = [
+  'reactivex~=4.0',
+  'cyclotron-aiohttp~=2.0',
+  'cyclotron-std~=2.0',
+  'sox~=1.3',
+  'boto3>=1.26',
+  'aionotify',
+]
+
+[project.optional-dependencies]
+test = [
+  "pytest",
+]
+
+[project.urls]
+repository = "https://github.com/PacktPublishing/Hands-On-Reactive-Programming-with-Python.git"
+
+[project.scripts]
+audio-encode-server="audio_encode_server.server:main"
+
+[options]
+packages = ["audio_encode_server"]
+
+[tool.setuptools.packages.find]
+where = ["./"]
+include = ["audio_encode_server"]
+namespaces = false

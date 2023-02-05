@@ -1,8 +1,8 @@
 from collections import namedtuple
 import json
-from rx.core.notification import OnNext, OnError, OnCompleted
-import rx
-import rx.operators as ops
+from reactivex.notification import OnNext, OnError, OnCompleted
+import reactivex as rx
+import reactivex.operators as ops
 from cyclotron import Component
 from cyclotron.asyncio.runner import run
 

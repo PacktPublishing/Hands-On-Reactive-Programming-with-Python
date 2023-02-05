@@ -9,5 +9,5 @@ async def wait(delay):
     print("waited for {} seconds at {}:{}:{}".format(delay, now.hour, now.minute, now.second))
     return True
 
-loop = asyncio.get_event_loop()
+loop = asyncio.new_event_loop()
 loop.run_until_complete(wait(2))

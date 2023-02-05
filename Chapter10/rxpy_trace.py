@@ -1,6 +1,5 @@
-import rx
-import rx.operators as ops
-from rx.core import Observer
+import reactivex as rx
+import reactivex.operators as ops
 import json
 import traceback
 

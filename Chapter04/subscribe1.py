@@ -1,5 +1,5 @@
-import rx
-from rx.core import Observer
+import reactivex as rx
+from reactivex import Observer
 
 
 class MyObserver(Observer):

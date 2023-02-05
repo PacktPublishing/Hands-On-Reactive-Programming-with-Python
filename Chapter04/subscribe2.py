@@ -1,4 +1,4 @@
-import rx
+import reactivex as rx
 
 
 numbers = rx.from_([1, 2, 3])

@@ -1,5 +1,5 @@
 from unittest import TestCase
-import rx
+import reactivex as rx
 
 
 def integer_passthrough(numbers):

@@ -1,6 +1,6 @@
 import sys
-import rx
-import rx.operators as ops
+import reactivex as rx
+from reactivex import operators as ops
 
 argv = rx.from_(sys.argv[1:])
 argv = argv.pipe(

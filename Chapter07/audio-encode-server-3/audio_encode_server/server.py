@@ -3,9 +3,9 @@ import threading
 import asyncio
 import datetime
 from collections import namedtuple
-import rx
-import rx.operators as ops
-from rx.concurrency import ThreadPoolScheduler, AsyncIOScheduler
+import reactivex as rx
+import reactivex.operators as ops
+from reactivex.scheduler import ThreadPoolScheduler
 from cyclotron import Component
 from cyclotron.asyncio.runner import run
 
@@ -70,7 +70,7 @@ def audio_encoder(sources):
         ops.flat_map(lambda i: i.request),
         ops.do_action(lambda i: print("[{}]http req: {}".format(datetime.datetime.now(), threading.get_ident()))),
         #.observe_on(encode_scheduler)
-        ops.flat_map(lambda i: Observable.just(i, encode_scheduler)),
+        ops.flat_map(lambda i: rx.just(i, encode_scheduler)),
         ops.do_action(lambda i: print("[{}]encode req: {}".format(datetime.datetime.now(), threading.get_ident()))),
         ops.map(lambda i: encoder.EncodeMp3(
             id=i.context,

@@ -1,6 +1,6 @@
-import rx
-import rx.operators as ops
-from rx.scheduler import ThreadPoolScheduler
+import reactivex as rx
+import reactivex.operators as ops
+from reactivex.scheduler import ThreadPoolScheduler
 import threading
 import time
 

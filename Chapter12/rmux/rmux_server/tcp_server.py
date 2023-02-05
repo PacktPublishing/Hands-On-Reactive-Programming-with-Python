@@ -1,5 +1,5 @@
 from collections import namedtuple
-import rx
+import reactivex as rx
 from cyclotron import Component
 import asyncio
 
@@ -45,8 +45,10 @@ def make_driver(loop=None):
 
             async def listen(host, port, handler):
                 try:
-                    await asyncio.start_server(handler, host, port, loop=loop)
+                    await asyncio.start_server(handler, host, port)
                 except Exception as e:
+                    print(e)
+                    print('ddddd')
                     loop.call_soon(observer.on_error(e))
 
             async def write(writer, data):

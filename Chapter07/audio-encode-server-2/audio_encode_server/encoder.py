@@ -1,6 +1,6 @@
 import os
 from collections import namedtuple
-import rx
+import reactivex as rx
 import sox
 
 from cyclotron import Component

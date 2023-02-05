@@ -1,5 +1,5 @@
-import rx
-from rx.scheduler.eventloop import AsyncIOScheduler
+import reactivex as rx
+from reactivex.scheduler.eventloop import AsyncIOScheduler
 import threading
 import asyncio
 
@@ -9,7 +9,7 @@ def foo():
     return 2
 
 
-loop = asyncio.get_event_loop()
+loop = asyncio.new_event_loop()
 done = loop.create_future()
 scheduler = AsyncIOScheduler(loop=loop)
 

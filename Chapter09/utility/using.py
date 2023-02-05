@@ -1,9 +1,9 @@
-import rx
-import rx.operators as ops
-from rx.subject import Subject
+import reactivex as rx
+import reactivex.operators as ops
+from reactivex.subject import Subject
 import datetime
 import time
-from rx.disposable import Disposable
+from reactivex.disposable import Disposable
 
 
 def resource():
@@ -20,4 +20,4 @@ rx.using(resource, lambda r: rx.just(1).pipe(ops.delay(0.2))).subscribe(
     on_error=lambda e: print("on_error: {}".format(e)),
     on_completed=lambda: print("on_completed")
 )
-time.sleep(500)
+time.sleep(0.5)

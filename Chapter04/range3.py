@@ -1,4 +1,4 @@
-import rx
+import reactivex as rx
 
 numbers = rx.from_(range(1, 10, 2))
 numbers.subscribe(

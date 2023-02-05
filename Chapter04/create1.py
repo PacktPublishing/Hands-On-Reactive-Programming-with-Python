@@ -1,4 +1,4 @@
-import rx
+import reactivex as rx
 
 
 def on_subscribe(observer, scheduler):

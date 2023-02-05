@@ -2,5 +2,8 @@ venv-rx
 *.pyc
 __pycache__
 *.egg-info
+.vscode
+.DS_Store
+notebook
 build
 dist

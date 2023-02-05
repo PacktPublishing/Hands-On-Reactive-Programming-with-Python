@@ -15,7 +15,7 @@ app = web.Application()
 app.router.add_route('GET', '/echo/{what}', echo_handler)
 runner = web.AppRunner(app)
 
-loop = asyncio.get_event_loop()
+loop = asyncio.new_event_loop()
 loop.create_task(start_server(runner))
 
 loop.run_forever()

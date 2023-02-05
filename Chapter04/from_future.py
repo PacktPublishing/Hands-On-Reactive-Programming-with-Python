@@ -1,4 +1,4 @@
-import rx
+import reactivex as rx
 import asyncio
 
 
@@ -7,9 +7,10 @@ async def foo(future):
     future.set_result(2)
 
 
-loop = asyncio.get_event_loop()
+loop = asyncio.new_event_loop()
+asyncio.set_event_loop(loop)
 done = loop.create_future()
-asyncio.ensure_future(foo(done))
+t = asyncio.ensure_future(foo(done), loop=loop)
 
 number = rx.from_future(done)
 print("subscribing...")
@@ -20,5 +21,5 @@ number.subscribe(
 )
 
 print("staring mainloop")
-loop.run_until_complete(done)
+loop.run_until_complete(t)
 loop.close()

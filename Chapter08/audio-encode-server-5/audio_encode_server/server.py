@@ -3,10 +3,10 @@ import threading
 import asyncio
 import datetime
 from collections import namedtuple
-import rx
-import rx.operators as ops
-from rx.scheduler import ThreadPoolScheduler
-from rx.scheduler.eventloop import AsyncIOScheduler
+import reactivex as rx
+import reactivex.operators as ops
+from reactivex.scheduler import ThreadPoolScheduler
+from reactivex.scheduler.eventloop import AsyncIOScheduler
 from cyclotron import Component
 from cyclotron.asyncio.runner import run
 

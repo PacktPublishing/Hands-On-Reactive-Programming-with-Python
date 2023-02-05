@@ -1,4 +1,4 @@
-import rx
+import reactivex as rx
 
 
 def create_numbers_observable(*args):
